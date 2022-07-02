@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Record - JSF Application</title>
+</h:head>
+<h:body>
+    <h:outputLabel value="Name: #{recordView.record.name} and artits #{recordView.record.artist}" id="label"/>
+
+    <h:form>
+        <p:commandLink type="button" value="Create" update="label" action="#{recordView.createNewRecord()}"/>
+    </h:form>
+
+    <h:form>
+        <p:commandLink type="button" value="Delete" update="label" action="#{recordView.deleteRecord()}"/>
+    </h:form>
+
+    <h:form>
+        <p:commandLink type="button" value="Log" update="label" action="#{recordView.logLastRecord()}"/>
+    </h:form>
+
+    <h:form>
+        <p:commandLink type="button" value="Destroy" update="label" action="#{recordView.deleteCurrentSession()}"/>
+    </h:form>
+</h:body>
+</html>
