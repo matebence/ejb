@@ -112,6 +112,23 @@ There are two types of dependencies in Maven: direct and transitive. On the othe
 </dependency>
 ```
 
+Each dependency scope affects transitive dependencies in its own way. This means that different transitive dependencies may end up in the project with different scopes. However, dependencies with scopes provided and test will never be included in the main project.
+
+Let's take a detailed look at what this means:
+- For the compile scope, all dependencies with runtime scope will be pulled in with the runtime scope in the project, and all dependencies with the compile scope will be pulled in with the compile scope in the project.
+- For the provided scope, both runtime and compile scope dependencies will be pulled in with the provided scope in the project.
+- For the test scope, both runtime and compile scope transitive dependencies will be pulled in with the test scope in the project.
+- For the runtime scope, both runtime and compile scope transitive dependencies will be pulled in with the runtime scope in the project.
+
+|		     	 |compile-classpath     |test-classpath 	|runtime-classpath 	|
+|----------------|----------------------|-------------------|-------------------|
+|compile   	     |🟢  			   		|🟢 					|🟢 					|
+|test   	     |🔴  			   		|🟢 					|🔴 					|
+|runtime   	     |🔴  			   		|🟢 					|🟢 					|
+|provided 	     |🟢  			   		|🟢 					|🔴 					|
+|system   	     |🟢  			   		|🟢 					|🔴 					|
+|import   	     |No change		   		|No change			|No change			|
+
 > #### Packing types
 
 Maven offers many default packaging types and also provides the flexibility to define a custom one.
