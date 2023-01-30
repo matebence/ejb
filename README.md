@@ -64,6 +64,15 @@ The getStates() method doesn't change the state of the Bean and so it doesn't ne
 |State  		    	 |Holds a state 					 	    |Doesnt maintain a state					|Executed once per application lifetime  |
 |Removed     	 		 |Removed when the client session terminated|No state removal							|Removed when the application terminates |
 
+- Stateful session beans (SFSB) are not exactly what you think they are. You seem to think that they behave somehow like session scoped JSF managed beans. This is untrue. The term "session" in EJBs has an entirely different meaning than the HTTP session which you've had in mind.
+
+- The "session" in EJBs must be interpreted in transactional context. The transaction (basically, the DB session) lives in case of SFSB as long as the client lives. The SFSB's client is in your particular example not the webbrowser, but the JSF managed bean instance itself, exactly the one where the SFSB is been injected. Since you have put the JSF managed bean in the request scope, the SFSB will be recreated on every HTTP request together with the JSF managed bean.
+
+- As an example, try to put the JSF managed bean in the view scope. The view scope is useful for a multi-step form on the same page, for example. Everytime when the view postbacks to itself, then the same JSF managed bean instance will be reused and this instance gives you access to the same instance of the SFSB as it is when the bean was created, which is not shared elsewhere. The SFSB transaction lives as long as the client (the view scoped JSF managed bean) lives.
+
+- A stateless session bean (SLSB) can be shared elsewhere, but that shouldn't matter as it's intented to be treated as stateless anyway. This "feature" saves the container time and memory to create and store them. The container can just have a pool of them. Even more, the SLSB instance which is been injected in a view, session or application scoped JSF managed bean does not necessarily need to refer exactly the same instance on every HTTP request as it was during JSF managed bean's creation. It can even be a completely different instance, depending on the available instances in the container's pool. The transaction lives (by default) as long as a single method call on the SLSB.
+
+- That said, a SFSB is unsuitable for your particular case of "remembering a logged-in user". That it's "more secure" makes really no sense. Just put the JSF managed bean in the session scope and let it remember the logged-in user by itself and make use of a SLSB to do any business actions (such as interacting with the DB) and use SFSB only when you want a real stateful session bean (I assume that you now understand what exactly they are 
 
 > #### Maven scopes
 

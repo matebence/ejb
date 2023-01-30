@@ -10,11 +10,9 @@ import entities.Car;
 import javax.persistence.PersistenceContext;
 import javax.ejb.TransactionManagement;
 import javax.annotation.Resource;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 
-@LocalBean
 @Stateless
 @Named(value = "carDAO")
 @TransactionManagement(TransactionManagementType.BEAN)

@@ -10,11 +10,9 @@ import java.util.List;
 import javax.persistence.PersistenceContext;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionAttribute;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 
-@LocalBean
 @Stateless
 @Named(value = "recordDAO")
 @TransactionManagement(TransactionManagementType.CONTAINER)
